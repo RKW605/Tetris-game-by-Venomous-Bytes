@@ -501,8 +501,8 @@ int main()
 {
     SetConsoleOutputCP(CP_UTF8);
     system("cls");
-    // callWelcomeFunctions();
-    // Sleep(2000);
+    callWelcomeFunctions();
+    Sleep(2000);
     system("cls");
     tetrisInstructionScreen();
     system("cls");
