@@ -8,8 +8,9 @@ int Score = 0;
 int thisGameHighScore = 0;
 int overallHighScore;
 int level = 1;
-int speed = 100;
+int speed = 300;
 int clearedRows = 0;
+int noOfHardDrops = 0;
 
 //  Used classes
 class Tetrominoes;
@@ -23,6 +24,7 @@ void endScreen(int width, int height);
 void playAgainArt(int width);
 void quitArt(int width);
 void scoreMessage(int height);
+void tetrisInstructionScreen();
 
 // Tetromino class
 class Tetrominoes
@@ -305,6 +307,13 @@ public:
                     break;
                 case 32:
                     notHardDrop = false;
+                    Score += 20;
+                    noOfHardDrops++;
+                    if (noOfHardDrops % 5 == 0)
+                    {
+                        level++;
+                        speed -= 30;
+                    }
                 }
             }
         }
@@ -490,13 +499,16 @@ public:
 // main function
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
+    system("cls");
     // callWelcomeFunctions();
     // Sleep(2000);
+    system("cls");
+    tetrisInstructionScreen();
     system("cls");
     FILE *ptr1 = fopen("high_score.txt", "r");
     fscanf(ptr1, "%d", &overallHighScore);
     fclose(ptr1);
-    SetConsoleOutputCP(CP_UTF8);
     srand(time(0));
     while (playing)
     {
@@ -518,6 +530,7 @@ int main()
             {
                 endScreen(board.width, board.height);
                 level = 1;
+                noOfHardDrops = 0;
                 speed = 300;
                 Sleep(200);
             }
@@ -527,15 +540,6 @@ int main()
     }
     cout << endl;
     return 0;
-}
-
-// Function to set cursor on a specific position
-void gotoxy(int x, int y)
-{
-    COORD coord;
-    coord.X = x;
-    coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 // Function to hide the cursor
@@ -714,5 +718,42 @@ void scoreMessage(int height)
         cout << "👍👍 You have a potential, But for now, Better luck next time. 👍👍" << endl;
         cout << "👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍" << endl;
         cout << "👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍" << endl;
+    }
+}
+
+void tetrisInstructionScreen()
+{
+    cout << "\033[93m\n";
+    cout << "\n";
+    cout << "\t\t\t\t\t\t\t\t\t=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\n";
+    cout << "\t\t\t\t\t\t\t\t\t\033[94m           🎮 TETRIS INSTRUCTIONS 🎮 \033[93m\n";
+    cout << "\t\t\t\t\t\t\t\t\t=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\n";
+    cout << "\033[92m\n";
+    cout << "\t\t\t\t\t\t\t\t\t📌 \033[95mControls:\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Press \033[94mAny Key\033[92m to start the game:\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Use the \033[94mArrow Keys\033[92m to move the tetromino:\n";
+    cout << "\t\t\t\t\t\t\t\t\t      \033[94mLeft Arrow\033[92m: Move Left,\n";
+    cout << "\t\t\t\t\t\t\t\t\t      \033[94mRight Arrow\033[92m: Move Right,\n"; 
+    cout << "\t\t\t\t\t\t\t\t\t      \033[94mDown Arrow\033[92m: Soft Drop\n"; 
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Press \033[94m'R'\033[92m to Rotate Clockwise, \033[94m'L'\033[92m to Rotate Counterclockwise\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Press \033[94mSpace\033[92m for Hard Drop\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Press \033[94m'Q'\033[92m to Quit\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Press \033[94m'P'\033[92m to Play again\n";
+    cout << "\n";
+    cout << "\t\t\t\t\t\t\t\t\t📌 \033[95mObjective:\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 Clear complete horizontal lines to score points\n";
+    cout << "\n";
+    cout << "\t\t\t\t\t\t\t\t\t📌 \033[95mAdditional Info:\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 A preview of the next tetromino is displayed\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 The game ends if a new tetromino collides immediately upon spawning\n";
+    cout << "\t\t\t\t\t\t\t\t\t   \033[92m👉 You will be awarded a special title based on your score.\n";
+    cout << "\n";
+    cout << "\t\t\t\t\t\t\t\t\t\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\033[91m-\033[93m=\n";    cout << "\033[0m";
+    while (true)
+    {
+        if (_kbhit())
+        {
+            break;
+        }
     }
 }
